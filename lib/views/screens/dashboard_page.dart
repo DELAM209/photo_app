@@ -25,7 +25,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     "Dessert",
     "Food"
   ];
-  int selectedCategory = -1;
+  int selectedCategory = 0;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Row(
-            children: [
+            children: const [
               Icon(Icons.camera),
               SizedBox(
                 width: 8.0,
@@ -58,7 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Expanded(
               flex: 1,
               child: Material(
-                elevation: 5,
+                elevation: 3,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
@@ -91,7 +91,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: OutlinedButton(
         style: ButtonStyle(
           backgroundColor: (selected) ?
-          MaterialStateProperty.all(Colors.green): null,
+          MaterialStateProperty.all(Color.fromARGB(255, 80, 80, 120)): null,
           shape: MaterialStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           ),
@@ -99,12 +99,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         onPressed: () {
           setState(() {
             selectedCategory = index;
+            loadCategory(categories[index]);
           });
-          loadCategory(categories[index]);
         },
         child: Text(
           categories[index],
-          style: (selected) ? TextStyle(color: Colors.white) : TextStyle(color: Colors.green),
+          style: (selected) ? TextStyle(color: Colors.white) : TextStyle(color: Color.fromARGB(255, 80, 80, 120)),
         ),
       ),
     );

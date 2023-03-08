@@ -9,28 +9,29 @@ class PhotoViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          buildUserInfo(),
-          SizedBox(height: 16),
-          buildImage(),
-          SizedBox(height: 16),
-          buildActions(),
-          SizedBox(height: 16),
-          buildFooter(),
-          Divider(
-            thickness: 1,
-            color: Colors.purple,
+      padding: EdgeInsets.all(8),
+      child: Card(
+        elevation: 1,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
+          child: Column(
+            children: [
+              buildUserInfo(),
+              SizedBox(height: 16),
+              buildImage(),
+              SizedBox(height: 16),
+              buildActions(),
+              SizedBox(height: 16),
+              buildFooter(),
+              SizedBox(height: 16),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
 
   buildUserInfo() {
-    print("TEST=----------------");
-    print(photoResource.photographerUrl);
     return Row(
       children: [
         CircleAvatar(

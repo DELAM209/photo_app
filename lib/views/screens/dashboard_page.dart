@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:photo_app/models/photo_icon_action.dart';
 import 'package:photo_app/view_models/dashboard_viewmodel.dart';
 import 'package:photo_app/views/widgets/category_item.dart';
 import 'package:photo_app/views/widgets/photo_view_item.dart';
@@ -56,10 +57,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 builder: (context, viewModel, _) {
                   return Expanded(
                     flex: 10,
-                    child: ListView.builder(
-                      key: ObjectKey(_dashboardViewModel),
-                      itemCount: _dashboardViewModel.photos.length,
-                      itemBuilder: _photoItemBuilder,
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: ListView.builder(
+                        key: ObjectKey(_dashboardViewModel),
+                        itemCount: _dashboardViewModel.photos.length,
+                        itemBuilder: _photoItemBuilder,
+                      ),
                     ),
                   );
                 },

@@ -32,4 +32,10 @@ class DashboardViewModel extends ChangeNotifier {
   String getCategoryName(int index) {
     return _categories[index];
   }
+
+  photoLiked(int photoId) {
+    final photo = _photos.firstWhere((element) => element.id == photoId);
+    photo.liked = !photo.liked;
+    notifyListeners();
+  }
 }

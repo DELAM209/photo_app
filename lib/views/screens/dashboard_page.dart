@@ -72,6 +72,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _photoItemBuilder(BuildContext context, int index) {
     return PhotoViewItem(
       photoResource: _dashboardViewModel.photos.elementAt(index),
+      onActionDetected: (photoIconAction, photoId) => {
+        if(photoIconAction == PhotoIconAction.LIKE) {
+          _dashboardViewModel.photoLiked(photoId)
+        }
+      },
     );
   }
 

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:photo_app/models/photo_icon_action.dart';
 import 'package:photo_app/models/photo_resource.dart';
 
 class PhotoViewItem extends StatelessWidget {
   final PhotoResource photoResource;
+  final Function(PhotoIconAction, int) onActionDetected;
 
-  const PhotoViewItem({super.key, required this.photoResource});
+  const PhotoViewItem(
+      {super.key, required this.photoResource, required this.onActionDetected});
 
   @override
   Widget build(BuildContext context) {
@@ -68,11 +71,37 @@ class PhotoViewItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.favorite_border_outlined, color: Colors.purple, size: 25.0),
+        GestureDetector(
+          onTap: () =>
+              {onActionDetected(PhotoIconAction.LIKE, photoResource.id)},
+          child: Icon(
+            (photoResource.liked)
+                ? Icons.favorite
+                : Icons.favorite_border_outlined,
+            color: Colors.purple,
+            size: 25.0,
+          ),
+        ),
         SizedBox(width: 10),
-        Icon(Icons.comment_outlined, color: Colors.purple, size: 25.0),
+        GestureDetector(
+          onTap: () =>
+              {onActionDetected(PhotoIconAction.COMMENT, photoResource.id)},
+          child: Icon(
+            Icons.comment_outlined,
+            color: Colors.purple,
+            size: 25.0,
+          ),
+        ),
         SizedBox(width: 10),
-        Icon(Icons.share_outlined, color: Colors.purple, size: 25.0),
+        GestureDetector(
+          onTap: () =>
+              {onActionDetected(PhotoIconAction.SHARE, photoResource.id)},
+          child: Icon(
+            Icons.share_outlined,
+            color: Colors.purple,
+            size: 25.0,
+          ),
+        ),
       ],
     );
   }

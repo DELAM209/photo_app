@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:photo_app/models/photo_icon_action.dart';
 import 'package:photo_app/models/photo_resource.dart';
+import 'package:photo_app/views/widgets/modal_utils.dart';
 
 class PhotoViewItem extends StatelessWidget {
   final PhotoResource photoResource;
   final Function(PhotoIconAction, int) onActionDetected;
 
-  const PhotoViewItem(
-      {super.key, required this.photoResource, required this.onActionDetected});
+  const PhotoViewItem({super.key, required this.photoResource, required this.onActionDetected});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class PhotoViewItem extends StatelessWidget {
               SizedBox(height: 16),
               buildImage(),
               SizedBox(height: 16),
-              buildActions(),
+              buildActions(context),
               SizedBox(height: 16),
               buildFooter(),
               SizedBox(height: 16),
@@ -67,25 +67,23 @@ class PhotoViewItem extends StatelessWidget {
     );
   }
 
-  buildActions() {
+  buildActions(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () =>
-              {onActionDetected(PhotoIconAction.LIKE, photoResource.id)},
+          onTap: () => {onActionDetected(PhotoIconAction.LIKE, photoResource.id)},
           child: Icon(
-            (photoResource.liked)
-                ? Icons.favorite
-                : Icons.favorite_border_outlined,
+            (photoResource.liked) ? Icons.favorite : Icons.favorite_border_outlined,
             color: Colors.purple,
             size: 25.0,
           ),
         ),
         SizedBox(width: 10),
         GestureDetector(
-          onTap: () =>
-              {onActionDetected(PhotoIconAction.COMMENT, photoResource.id)},
+          onTap: () => {
+            ModalUtils.showMessageModal(context)
+          },
           child: Icon(
             Icons.comment_outlined,
             color: Colors.purple,
@@ -94,8 +92,7 @@ class PhotoViewItem extends StatelessWidget {
         ),
         SizedBox(width: 10),
         GestureDetector(
-          onTap: () =>
-              {onActionDetected(PhotoIconAction.SHARE, photoResource.id)},
+          onTap: () => {onActionDetected(PhotoIconAction.SHARE, photoResource.id)},
           child: Icon(
             Icons.share_outlined,
             color: Colors.purple,
@@ -109,8 +106,7 @@ class PhotoViewItem extends StatelessWidget {
   buildFooter() {
     return Align(
       alignment: Alignment.centerLeft,
-      child: Text(photoResource.alt,
-          style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15)),
+      child: Text(photoResource.alt, style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15)),
     );
   }
 }

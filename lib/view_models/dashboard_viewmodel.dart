@@ -11,11 +11,7 @@ class DashboardViewModel extends ChangeNotifier {
   List<String> _categories = [
     "Nature",
     "Animals",
-    "City",
     "Countryside",
-    "Oceans",
-    "Sky",
-    "Clouds",
     "Dessert",
     "Food"
   ];

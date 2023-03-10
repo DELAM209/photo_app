@@ -60,7 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 8),
                       child: ListView.builder(
-                        key: ObjectKey(_dashboardViewModel),
+                        key: ObjectKey(_dashboardViewModel.photos),
                         itemCount: _dashboardViewModel.photos.length,
                         itemBuilder: _photoItemBuilder,
                       ),

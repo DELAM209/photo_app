@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:photo_app/views/screens/dashboard_page.dart';
@@ -27,7 +26,7 @@ class HomePage extends StatelessWidget {
                 Text(
                   "Welcome Home Miguel!",
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Color.fromARGB(250, 29, 45, 50),
+                      color: Color.fromARGB(250, 20, 36, 41),
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -37,7 +36,7 @@ class HomePage extends StatelessWidget {
                   DateFormat("dd MMMM, yyyy").format(now),
                   textAlign: TextAlign.right,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Color.fromARGB(250, 29, 45, 50),
+                      color: Color.fromARGB(250, 20, 36, 41),
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -55,7 +54,7 @@ class HomePage extends StatelessWidget {
                         ),
                       ),
                       shape: StadiumBorder(),
-                      fillColor: Color.fromARGB(255, 77, 92, 119),
+                      fillColor: Color.fromARGB(255, 80, 80, 120),
                       onPressed: () => navigateToDashboard(context)),
                 )
               ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:photo_app/repository/service_api.dart';
+import 'package:photo_app/view_models/dashboard_viewmodel.dart';
+import 'package:photo_app/views/widgets/category_item.dart';
 import 'package:photo_app/views/widgets/photo_view_item.dart';
-import '../../models/photo_resource.dart';
+import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({super.key});
@@ -12,29 +12,13 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final api = GetIt.instance.get<ServiceApi>();
-  List<PhotoResource> photos = List.empty(growable: true);
-  List<String> categories = [
-    "Nature",
-    "Animals",
-    "City",
-    "Countryside",
-    "Oceans",
-    "Sky",
-    "Clouds",
-    "Dessert",
-    "Food"
-  ];
-  int selectedCategory = 0;
+  final DashboardViewModel _dashboardViewModel = DashboardViewModel();
+  int _selectedCategoryIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    api.getItemsPerCategory("nature").then((value) => {
-          setState(() {
-            photos = value;
-          })
-        });
+    _dashboardViewModel.loadPhotosBy("nature");
   }
 
   @override
@@ -61,17 +45,24 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 elevation: 3,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: categories.length,
+                  itemCount: _dashboardViewModel.categories.length,
                   itemBuilder: _categoryItemBuilder,
                 ),
               ),
             ),
-            Expanded(
-              flex: 10,
-              child: ListView.builder(
-                key: ObjectKey(photos),
-                itemCount: photos.length,
-                itemBuilder: _photoItemBuilder,
+            ChangeNotifierProvider<DashboardViewModel>(
+              create: (BuildContext context) => _dashboardViewModel,
+              child: Consumer<DashboardViewModel>(
+                builder: (context, viewModel, _) {
+                  return Expanded(
+                    flex: 10,
+                    child: ListView.builder(
+                      key: ObjectKey(_dashboardViewModel),
+                      itemCount: _dashboardViewModel.photos.length,
+                      itemBuilder: _photoItemBuilder,
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -80,41 +71,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _photoItemBuilder(BuildContext context, int index) {
     return PhotoViewItem(
-      photoResource: photos.elementAt(index),
+      photoResource: _dashboardViewModel.photos.elementAt(index),
     );
   }
 
   Widget _categoryItemBuilder(BuildContext context, int index) {
-    bool selected = selectedCategory == index;
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: OutlinedButton(
-        style: ButtonStyle(
-          backgroundColor: (selected) ?
-          MaterialStateProperty.all(Color.fromARGB(255, 80, 80, 120)): null,
-          shape: MaterialStateProperty.all(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          ),
-        ),
-        onPressed: () {
-          setState(() {
-            selectedCategory = index;
-            loadCategory(categories[index]);
-          });
-        },
-        child: Text(
-          categories[index],
-          style: (selected) ? TextStyle(color: Colors.white) : TextStyle(color: Color.fromARGB(255, 80, 80, 120)),
-        ),
-      ),
+    bool selected = _selectedCategoryIndex == index;
+    String name = _dashboardViewModel.getCategoryName(index);
+    return CategoryItem(
+      name: name,
+      selected: selected,
+      tapListener: () => {
+        setState(() {
+          _selectedCategoryIndex = index;
+          _dashboardViewModel
+              .loadPhotosBy(_dashboardViewModel.categories[index]);
+        })
+      },
     );
-  }
-
-  void loadCategory(String category) {
-    api.getItemsPerCategory(category).then((value) => {
-          setState(() {
-            photos = value;
-          })
-        });
   }
 }

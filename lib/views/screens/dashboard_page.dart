@@ -5,7 +5,7 @@ import 'package:photo_app/views/widgets/category_item.dart';
 import 'package:photo_app/views/widgets/photo_view_item.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/messages_modal.dart';
+import '../widgets/comments_modal.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({super.key});
@@ -53,8 +53,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
             ),
-            ChangeNotifierProvider<DashboardViewModel>(
-              create: (BuildContext context) => _dashboardViewModel,
+            ChangeNotifierProvider<DashboardViewModel>.value(
+              value: _dashboardViewModel,
               child: Consumer<DashboardViewModel>(
                 builder: (context, viewModel, _) {
                   return Expanded(
@@ -82,7 +82,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         if(photoIconAction == PhotoIconAction.LIKE) {
           _dashboardViewModel.photoLiked(photoId)
         } else if(photoIconAction == PhotoIconAction.COMMENT) {
-          MessagesModal().showMessageModal(context)
+          CommentsModal().showCommentsModal(context, photoId)
         }
       },
     );

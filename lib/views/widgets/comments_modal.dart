@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:photo_app/models/photo_comment.dart';
+import 'package:photo_app/view_models/comments_viewmodel.dart';
 
-class MessagesModal {
-  List<PhotoComment> photoComments = [
-    PhotoComment(12345, "Bella Ramsey", "Great scenario"),
-    PhotoComment(12345, "Troy Baker", "Such an amazing view"),
-    PhotoComment(12345, "Pedro Pascal", "I've been there, the food is great! :)"),
-    PhotoComment(12345, "Ashley Johnson", "I wish I could be there now"),
-  ];
+class CommentsModal {
+  final CommentsViewModel _commentsViewModel = CommentsViewModel();
 
-  // TODO receive the photo comments list here
-  showMessageModal(BuildContext context) {
+  // Using a future builder, since this is not really a widget
+  late Future<List<PhotoComment>> futureComments;
+
+  showCommentsModal(BuildContext context, int photoId) {
+    futureComments = _commentsViewModel.commentsFuture(photoId);
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -32,12 +31,19 @@ class MessagesModal {
             child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Expanded(
-                  child: ListView.builder(
-                    key: ObjectKey(photoComments),
-                    itemCount: photoComments.length,
-                    itemBuilder: _photoCommentBuilder,
-                  ),
+                FutureBuilder<List<PhotoComment>>(
+                  future: futureComments,
+                  builder: (context, comments) {
+                    return Expanded(
+                      child: (comments.hasData)
+                          ? ListView.builder(
+                              key: ObjectKey(comments.data),
+                              itemCount: comments.data!.length,
+                              itemBuilder: (context, index) => _photoCommentBuilder(comments.data![index]),
+                            )
+                          : Text("Loading..."),
+                    );
+                  },
                 ),
                 SizedBox(
                   height: 16,
@@ -52,27 +58,27 @@ class MessagesModal {
                 ),
                 SizedBox(
                   height: 32,
-                )
+                ),
               ],
             ),
           ),
         );
       };
 
-  Widget? _photoCommentBuilder(BuildContext context, int index) {
+  Widget? _photoCommentBuilder(PhotoComment photoComment) {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            photoComments[index].userName,
+            photoComment.userName,
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text(photoComments[index].comment),
+          Text(photoComment.comment),
           Divider(
             thickness: 1,
-          )
+          ),
         ],
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:photo_app/models/photo_comment.dart';
 
-class ModalUtils {
-  static List<PhotoComment> photoComments = [
+class MessagesModal {
+  List<PhotoComment> photoComments = [
     PhotoComment(12345, "Bella Ramsey", "Great scenario"),
     PhotoComment(12345, "Troy Baker", "Such an amazing view"),
     PhotoComment(12345, "Pedro Pascal", "I've been there, the food is great! :)"),
@@ -10,7 +10,7 @@ class ModalUtils {
   ];
 
   // TODO receive the photo comments list here
-  static showMessageModal(BuildContext context) {
+  showMessageModal(BuildContext context) {
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -24,7 +24,7 @@ class ModalUtils {
     );
   }
 
-  static WidgetBuilder _modalBuilder() => (context) {
+  WidgetBuilder _modalBuilder() => (context) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.80,
           child: Padding(
@@ -59,7 +59,7 @@ class ModalUtils {
         );
       };
 
-  static Widget? _photoCommentBuilder(BuildContext context, int index) {
+  Widget? _photoCommentBuilder(BuildContext context, int index) {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(

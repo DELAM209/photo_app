@@ -13,8 +13,6 @@ class ServiceApi {
     };
     var response = await http.get(headers: headers, url);
     Map<String, dynamic> map = jsonDecode(response.body);
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${map["photos"]}');
     return (map["photos"] as List).map((data) => PhotoResource.fromJson(data)).toList();
   }
 }

@@ -5,6 +5,8 @@ import 'package:photo_app/views/widgets/category_item.dart';
 import 'package:photo_app/views/widgets/photo_view_item.dart';
 import 'package:provider/provider.dart';
 
+import '../widgets/modal_utils.dart';
+
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({super.key});
 
@@ -79,6 +81,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       onActionDetected: (photoIconAction, photoId) => {
         if(photoIconAction == PhotoIconAction.LIKE) {
           _dashboardViewModel.photoLiked(photoId)
+        } else if(photoIconAction == PhotoIconAction.COMMENT) {
+          ModalUtils.showMessageModal(context)
         }
       },
     );

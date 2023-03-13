@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:photo_app/models/photo_icon_action.dart';
 import 'package:photo_app/models/photo_resource.dart';
-import 'package:photo_app/views/widgets/modal_utils.dart';
 
 class PhotoViewItem extends StatelessWidget {
   final PhotoResource photoResource;
@@ -23,7 +22,7 @@ class PhotoViewItem extends StatelessWidget {
               SizedBox(height: 16),
               buildImage(),
               SizedBox(height: 16),
-              buildActions(context),
+              buildActions(),
               SizedBox(height: 16),
               buildFooter(),
               SizedBox(height: 16),
@@ -67,7 +66,7 @@ class PhotoViewItem extends StatelessWidget {
     );
   }
 
-  buildActions(BuildContext context) {
+  buildActions() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -82,7 +81,7 @@ class PhotoViewItem extends StatelessWidget {
         SizedBox(width: 10),
         GestureDetector(
           onTap: () => {
-            ModalUtils.showMessageModal(context)
+            onActionDetected(PhotoIconAction.COMMENT, photoResource.id)
           },
           child: Icon(
             Icons.comment_outlined,

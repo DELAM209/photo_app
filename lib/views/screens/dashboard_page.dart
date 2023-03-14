@@ -5,6 +5,7 @@ import 'package:photo_app/views/widgets/category_item.dart';
 import 'package:photo_app/views/widgets/photo_view_item.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils.dart';
 import '../widgets/comments_modal.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -79,11 +80,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return PhotoViewItem(
       photoResource: _dashboardViewModel.photos.elementAt(index),
       onActionDetected: (photoIconAction, photoId) => {
-        if(photoIconAction == PhotoIconAction.LIKE) {
-          _dashboardViewModel.photoLiked(photoId)
-        } else if(photoIconAction == PhotoIconAction.COMMENT) {
-          CommentsModal().showCommentsModal(context, photoId)
-        }
+        if (photoIconAction == PhotoIconAction.LIKE)
+          {_dashboardViewModel.photoLiked(photoId)}
+        else if (photoIconAction == PhotoIconAction.COMMENT)
+          {CommentsModal().showCommentsModal(context, photoId)}
+        else if (photoIconAction == PhotoIconAction.SHARE)
+          {Utils.sharePhoto(photoId)}
       },
     );
   }

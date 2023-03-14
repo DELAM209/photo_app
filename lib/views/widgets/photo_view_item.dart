@@ -4,7 +4,7 @@ import 'package:photo_app/models/photo_resource.dart';
 
 class PhotoViewItem extends StatelessWidget {
   final PhotoResource photoResource;
-  final Function(PhotoIconAction, int) onActionDetected;
+  final Function(PhotoIconAction, dynamic) onActionDetected;
 
   const PhotoViewItem({super.key, required this.photoResource, required this.onActionDetected});
 
@@ -91,7 +91,7 @@ class PhotoViewItem extends StatelessWidget {
         ),
         SizedBox(width: 10),
         GestureDetector(
-          onTap: () => {onActionDetected(PhotoIconAction.SHARE, photoResource.id)},
+          onTap: () => {onActionDetected(PhotoIconAction.SHARE, photoResource.url)},
           child: Icon(
             Icons.share_outlined,
             color: Colors.purple,

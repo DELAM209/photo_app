@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Welcome Home Miguel!",
+                  "Welcome Home!",
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: Color.fromARGB(250, 20, 36, 41),
                       fontWeight: FontWeight.bold),

@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 import '../../utils.dart';
 import '../widgets/comments_modal.dart';
 
-class DashboardScreen extends StatefulWidget {
-  DashboardScreen({super.key});
+class DashboardPage extends StatefulWidget {
+  DashboardPage({super.key});
 
   @override
-  State<DashboardScreen> createState() => _DashboardScreenState();
+  State<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardPageState extends State<DashboardPage> {
   final DashboardViewModel _dashboardViewModel = DashboardViewModel();
   int _selectedCategoryIndex = 0;
 

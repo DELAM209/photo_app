@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:photo_app/models/photo_icon_action.dart';
 import 'package:photo_app/models/photo_resource.dart';
 
@@ -20,7 +21,7 @@ class PhotoViewItem extends StatelessWidget {
             children: [
               buildUserInfo(),
               SizedBox(height: 16),
-              buildImage(),
+              buildImage(context),
               SizedBox(height: 16),
               buildActions(),
               SizedBox(height: 16),
@@ -49,19 +50,24 @@ class PhotoViewItem extends StatelessWidget {
     );
   }
 
-  buildImage() {
-    return ClipRRect(
-      borderRadius: BorderRadius.only(
-        bottomLeft: Radius.circular(25),
-        topRight: Radius.circular(25),
-        topLeft: Radius.circular(5),
-        bottomRight: Radius.circular(5),
-      ),
-      child: Image.network(
-        photoResource.url,
-        fit: BoxFit.cover,
-        height: 280,
-        width: double.infinity, // Set width to 100% of the parent
+  buildImage(BuildContext context) {
+    return GestureDetector(
+      onTap: () => {
+        context.goNamed('photoDetail', params: {'photoId': photoResource.url})
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+          topLeft: Radius.circular(5),
+          bottomRight: Radius.circular(5),
+        ),
+        child: Image.network(
+          photoResource.url,
+          fit: BoxFit.cover,
+          height: 280,
+          width: double.infinity, // Set width to 100% of the parent
+        ),
       ),
     );
   }
@@ -80,9 +86,7 @@ class PhotoViewItem extends StatelessWidget {
         ),
         SizedBox(width: 10),
         GestureDetector(
-          onTap: () => {
-            onActionDetected(PhotoIconAction.COMMENT, photoResource.id)
-          },
+          onTap: () => {onActionDetected(PhotoIconAction.COMMENT, photoResource.id)},
           child: Icon(
             Icons.comment_outlined,
             color: Colors.purple,

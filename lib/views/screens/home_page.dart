@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:photo_app/views/screens/dashboard_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -9,11 +9,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-            image: DecorationImage(
-                image: Image.network(
-                    "https://images.pexels.com/photos/1125212/pexels-photo-1125212.jpeg")
-                    .image,
-                fit: BoxFit.cover)),
+            image:
+                DecorationImage(image: Image.network("https://images.pexels.com/photos/1125212/pexels-photo-1125212.jpeg").image, fit: BoxFit.cover)),
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Align(
@@ -25,9 +22,7 @@ class HomePage extends StatelessWidget {
               children: <Widget>[
                 Text(
                   "Welcome Home!",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Color.fromARGB(250, 20, 36, 41),
-                      fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Color.fromARGB(250, 20, 36, 41), fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 20.0,
@@ -35,9 +30,7 @@ class HomePage extends StatelessWidget {
                 Text(
                   DateFormat("dd MMMM, yyyy").format(now),
                   textAlign: TextAlign.right,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Color.fromARGB(250, 20, 36, 41),
-                      fontWeight: FontWeight.bold),
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color.fromARGB(250, 20, 36, 41), fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
                   height: 420,
@@ -49,8 +42,7 @@ class HomePage extends StatelessWidget {
                         padding: const EdgeInsets.all(16.0),
                         child: Text(
                           " Get Amazing stuff!",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, color: Colors.white),
+                          style: TextStyle(fontWeight: FontWeight.w500, color: Colors.white),
                         ),
                       ),
                       shape: StadiumBorder(),
@@ -66,7 +58,6 @@ class HomePage extends StatelessWidget {
   }
 
   navigateToDashboard(BuildContext context) {
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DashboardScreen()));
+    context.go('/dashboard');
   }
 }

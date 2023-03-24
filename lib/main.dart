@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:photo_app/repository/comments_api.dart';
@@ -9,10 +10,11 @@ import 'package:photo_app/views/widgets/photo_view_detail.dart';
 
 final getIt = GetIt.instance;
 
+
 void main() {
   getIt.registerSingleton<ServiceApi>(ServiceApi());
   getIt.registerSingleton<CommentsApi>(CommentsApi());
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

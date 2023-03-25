@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_app/models/photo_icon_action.dart';
-import 'package:photo_app/view_models/dashboard_viewmodel.dart';
+import 'package:photo_app/models/photo_resource.dart';
 import 'package:photo_app/views/widgets/category_item.dart';
 import 'package:photo_app/views/widgets/photo_view_item.dart';
-import 'package:provider/provider.dart';
-
 import '../../utils.dart';
+import '../../view_models/photos_repository.dart';
 import '../widgets/comments_modal.dart';
 
-class DashboardPage extends StatefulWidget {
-  DashboardPage({super.key});
+class DashboardPage extends ConsumerStatefulWidget {
+  const DashboardPage({super.key});
 
   @override
-  State<DashboardPage> createState() => _DashboardPageState();
+  ConsumerState<DashboardPage> createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends State<DashboardPage> {
-  final DashboardViewModel _dashboardViewModel = DashboardViewModel();
+class _DashboardPageState extends ConsumerState<DashboardPage> {
   int _selectedCategoryIndex = 0;
 
   @override
   void initState() {
     super.initState();
-    _dashboardViewModel.loadPhotosBy("nature");
   }
 
   @override
   Widget build(BuildContext context) {
+    final photos = ref.watch(repositoryProvider);
+    final categories = ref.read(categoryProvider);
     return Scaffold(
         appBar: AppBar(
           title: Row(
@@ -49,39 +49,35 @@ class _DashboardPageState extends State<DashboardPage> {
                 elevation: 3,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: _dashboardViewModel.categories.length,
+                  itemCount: categories.length,
                   itemBuilder: _categoryItemBuilder,
                 ),
               ),
             ),
-            ChangeNotifierProvider<DashboardViewModel>.value(
-              value: _dashboardViewModel,
-              child: Consumer<DashboardViewModel>(
-                builder: (context, viewModel, _) {
-                  return Expanded(
-                    flex: 10,
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: ListView.builder(
-                        key: ObjectKey(_dashboardViewModel.photos),
-                        itemCount: _dashboardViewModel.photos.length,
-                        itemBuilder: _photoItemBuilder,
-                      ),
-                    ),
-                  );
-                },
+            Expanded(
+              flex: 10,
+              child: Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: ListView.builder(
+                  key: ObjectKey(photos),
+                  itemCount: photos.length,
+                  itemBuilder: (ctx, index) => _photoItemBuilder(ctx, photos[index]),
+                ),
               ),
             ),
           ],
         ));
   }
 
-  Widget _photoItemBuilder(BuildContext context, int index) {
+  Widget _photoItemBuilder(BuildContext context, PhotoResource photoResource) {
+    final repository = ref.read(repositoryProvider);
     return PhotoViewItem(
-      photoResource: _dashboardViewModel.photos.elementAt(index),
+      photoResource: photoResource,
       onActionDetected: (photoIconAction, photoId) => {
         if (photoIconAction == PhotoIconAction.LIKE)
-          {_dashboardViewModel.photoLiked(photoId)}
+          {
+            //repository.photoLiked(photoId)
+          }
         else if (photoIconAction == PhotoIconAction.COMMENT)
           {CommentsModal().showCommentsModal(context, photoId)}
         else if (photoIconAction == PhotoIconAction.SHARE)
@@ -91,16 +87,16 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Widget _categoryItemBuilder(BuildContext context, int index) {
+    final categories = ref.read(categoryProvider);
     bool selected = _selectedCategoryIndex == index;
-    String name = _dashboardViewModel.getCategoryName(index);
+    String name = categories[index];
     return CategoryItem(
       name: name,
       selected: selected,
       tapListener: () => {
         setState(() {
           _selectedCategoryIndex = index;
-          _dashboardViewModel
-              .loadPhotosBy(_dashboardViewModel.categories[index]);
+          ref.read(repositoryProvider.notifier).fetchPhotosBy(name);
         })
       },
     );

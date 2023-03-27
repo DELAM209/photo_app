@@ -20,4 +20,11 @@ class PhotosRepository extends StateNotifier<List<PhotoResource>> {
   void fetchPhotosBy(String query) async {
     state = await _photoServiceApi.getItemsPerCategory(query);
   }
+
+  void photoLiked(photoId) {
+    List<PhotoResource> photos = [...state];
+    final photoIndex = photos.indexWhere((element) => element.id == photoId);
+    photos[photoIndex].liked = !photos[photoIndex].liked;
+    state = photos;
+  }
 }

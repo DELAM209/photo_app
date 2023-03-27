@@ -59,7 +59,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
               child: Padding(
                 padding: EdgeInsets.only(top: 8),
                 child: ListView.builder(
-                  key: ObjectKey(photos),
+                  key: ObjectKey(_selectedCategoryIndex),
                   itemCount: photos.length,
                   itemBuilder: (ctx, index) => _photoItemBuilder(ctx, photos[index]),
                 ),
@@ -75,7 +75,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       onActionDetected: (photoIconAction, photoId) => {
         if (photoIconAction == PhotoIconAction.LIKE)
           {
-            //repository.photoLiked(photoId)
+            ref.read(repositoryProvider.notifier).photoLiked(photoId)
           }
         else if (photoIconAction == PhotoIconAction.COMMENT)
           {CommentsModal().showCommentsModal(ref, context, photoId)}

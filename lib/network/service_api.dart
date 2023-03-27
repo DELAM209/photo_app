@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_app/models/photo_resource.dart';
 import 'package:http/http.dart' as http;
+
+final photoServiceApi = Provider((ref) => ServiceApi());
 
 class ServiceApi {
   getItemsPerCategory(String category) async {

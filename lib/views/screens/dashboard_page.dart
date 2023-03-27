@@ -4,8 +4,8 @@ import 'package:photo_app/models/photo_icon_action.dart';
 import 'package:photo_app/models/photo_resource.dart';
 import 'package:photo_app/views/widgets/category_item.dart';
 import 'package:photo_app/views/widgets/photo_view_item.dart';
+import '../../reporitory/photos_repository.dart';
 import '../../utils.dart';
-import '../../view_models/photos_repository.dart';
 import '../widgets/comments_modal.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
@@ -26,7 +26,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     final photos = ref.watch(repositoryProvider);
-    final categories = ref.read(categoryProvider);
+    final categories = ref.watch(categoryProvider);
     return Scaffold(
         appBar: AppBar(
           title: Row(
@@ -70,7 +70,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   }
 
   Widget _photoItemBuilder(BuildContext context, PhotoResource photoResource) {
-    final repository = ref.read(repositoryProvider);
     return PhotoViewItem(
       photoResource: photoResource,
       onActionDetected: (photoIconAction, photoId) => {
@@ -79,7 +78,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             //repository.photoLiked(photoId)
           }
         else if (photoIconAction == PhotoIconAction.COMMENT)
-          {CommentsModal().showCommentsModal(context, photoId)}
+          {CommentsModal().showCommentsModal(ref, context, photoId)}
         else if (photoIconAction == PhotoIconAction.SHARE)
           {Utils.sharePhoto(photoId)}
       },
@@ -87,7 +86,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
   }
 
   Widget _categoryItemBuilder(BuildContext context, int index) {
-    final categories = ref.read(categoryProvider);
+    final categories = ref.watch(categoryProvider);
     bool selected = _selectedCategoryIndex == index;
     String name = categories[index];
     return CategoryItem(

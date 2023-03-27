@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:photo_app/models/photo_comment.dart';
-import 'package:photo_app/view_models/comments_viewmodel.dart';
+import '../../network/comments_api.dart';
 
 class CommentsModal {
-  final CommentsViewModel _commentsViewModel = CommentsViewModel();
-
   // Using a future builder, since this is not really a widget
   late Future<List<PhotoComment>> futureComments;
 
-  showCommentsModal(BuildContext context, int photoId) {
-    futureComments = _commentsViewModel.commentsFuture(photoId);
+  showCommentsModal(WidgetRef ref, BuildContext context, int photoId) {
+    futureComments = ref.read(commentsApiProvider).getCommentsForMedia(photoId);
     showModalBottomSheet(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(

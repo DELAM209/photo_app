@@ -53,7 +53,7 @@ class PhotoViewItem extends StatelessWidget {
   buildImage(BuildContext context) {
     return GestureDetector(
       onTap: () => {
-        context.goNamed('photoDetail', params: {'photoId': photoResource.url})
+        context.goNamed('photoDetail', params: {'photoId': "${photoResource.id}"})
       },
       child: ClipRRect(
         borderRadius: BorderRadius.only(
@@ -95,7 +95,7 @@ class PhotoViewItem extends StatelessWidget {
         ),
         SizedBox(width: 10),
         GestureDetector(
-          onTap: () => {onActionDetected(PhotoIconAction.SHARE, photoResource.url)},
+          onTap: () => {onActionDetected(PhotoIconAction.SHARE, photoResource.id)},
           child: Icon(
             Icons.share_outlined,
             color: Colors.purple,

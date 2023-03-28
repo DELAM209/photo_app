@@ -9,7 +9,7 @@ class PhotoViewDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text(title),
+      body: Center(child: Text("Photo ID: $title")),
     );
   }
 }

@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 
 class Utils {
-  static sharePhoto(String url) {
+  static sharePhoto(String id) {
     if (Platform.isAndroid) {
       try {
-        const platform = MethodChannel('com.photoapp.dev/share');
-        platform.invokeMethod('shareMedia', {"link": url});
+        MethodChannel platform = const MethodChannel("com.photoapp.dev/share");
+        platform.invokeMethod('shareMedia', {"link": "https://photo.app/photoDetail/$id"});
       } on PlatformException catch (e) {
         print("Platform error: ${e.message}");
       }

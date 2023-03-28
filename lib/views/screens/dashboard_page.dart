@@ -80,7 +80,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         else if (photoIconAction == PhotoIconAction.COMMENT)
           {CommentsModal().showCommentsModal(ref, context, photoId)}
         else if (photoIconAction == PhotoIconAction.SHARE)
-          {Utils.sharePhoto(photoId)}
+          {Utils.sharePhoto(photoId.toString())}
       },
     );
   }

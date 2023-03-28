@@ -1,13 +1,11 @@
 package com.example.photo_app
 
 import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
-import io.flutter.plugin.common.EventChannel.EventSink
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity : FlutterActivity() {
@@ -20,14 +18,6 @@ class MainActivity : FlutterActivity() {
             if (call.method == SHARE_MEDIA_METHOD_NAME) {
                 val link = call.argument<String>(SHARE_MEDIA_ARG_LINK)
                 sendShareIntent(link)
-            }
-        }
-        // For deeplinks
-        MethodChannel(flutterEngine.dartExecutor, DEEP_LINK_CHANNEL).setMethodCallHandler { call, result ->
-            if (call.method == "initialLink") {
-                startString?.let {
-                    result.success(startString)
-                }
             }
         }
     }
@@ -44,17 +34,6 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    fun createChangeReceiver(events: EventSink): BroadcastReceiver? {
-        return object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                if (intent?.action == Intent.ACTION_VIEW) {
-                    val dataString = intent.dataString ?: events.error("UNAVAILABLE", "Link unavailable", null)
-                    events.success(dataString)
-                }
-            }
-        }
-    }
-
     private fun sendShareIntent(link: String?) {
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
@@ -65,7 +44,6 @@ class MainActivity : FlutterActivity() {
 
     companion object {
         const val CHANNEL = "com.photoapp.dev/share"
-        const val DEEP_LINK_CHANNEL = "poc.deeplink.flutter.dev/channel"
         const val SHARE_MEDIA_METHOD_NAME = "shareMedia"
         const val SHARE_MEDIA_ARG_LINK = "link"
     }
